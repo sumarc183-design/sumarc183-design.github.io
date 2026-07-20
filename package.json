@@ -1,10 +1,8 @@
 {
   "scripts": {
-    "build": "vite build",
-    "dev": "vite --host 127.0.0.1"
+    "build": "node build.mjs",
+    "dev": "python -m http.server 4173"
   },
   "dependencies": {},
-  "devDependencies": {
-    "vite": "latest"
-  }
+  "devDependencies": {}
 }
