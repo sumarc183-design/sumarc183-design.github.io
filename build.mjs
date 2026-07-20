@@ -9,6 +9,7 @@ const assets = [
   ["styles.css", "text/css; charset=utf-8"],
   ["script.js", "application/javascript; charset=utf-8"],
   ["assets/hero-data-portfolio.png", "image/png"],
+  ["assets/marc-su-portrait.png", "image/png"],
   ["assets/CV_data_Marc_Su.pdf", "application/pdf"],
   ["assets/CV_finance_Marc_Su.pdf", "application/pdf"],
 ];
