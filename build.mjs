@@ -8,8 +8,10 @@ const assets = [
   ["index.html", "text/html; charset=utf-8"],
   ["styles.css", "text/css; charset=utf-8"],
   ["script.js", "application/javascript; charset=utf-8"],
-  ["assets/hero-data-portfolio.png", "image/png"],
-  ["assets/marc-su-portrait.png", "image/png"],
+  ["assets/hero-data-portfolio.jpg", "image/jpeg"],
+  ["assets/marc-su-portrait.jpg", "image/jpeg"],
+  ["assets/favicon.png", "image/png"],
+  ["assets/favicon-32.png", "image/png"],
   ["assets/CV_data_Marc_Su.pdf", "application/pdf"],
   ["assets/CV_finance_Marc_Su.pdf", "application/pdf"],
 ];

@@ -487,6 +487,19 @@ a {
   margin-top: 24px;
 }
 
+.project-note {
+  margin-top: auto;
+  padding-top: 24px;
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 0.84rem;
+  font-style: italic;
+}
+
+.project-card ul + .project-note {
+  margin-top: 24px;
+  padding-top: 0;
+}
+
 .skills-layout {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
