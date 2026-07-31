@@ -1,0 +1,913 @@
+<meta charset="utf-8">
+<title>FraudScope AI — Rapport de projet</title>
+<style>
+  :root {
+    --paper: #eef1ec;
+    --card: #e3e8e1;
+    --card-line: #ccd5cb;
+    --ink: #1a2420;
+    --ink-soft: #48584f;
+    --ink-faint: #7c8a80;
+    --accent: #2a5a6b;
+    --accent-soft: #d9e4e6;
+    --good: #2f7d4f;
+    --good-soft: #dcece1;
+    --risk: #a8501c;
+    --risk-soft: #f0dccb;
+    --rule: #c7d0c5;
+    --serif: Georgia, "Iowan Old Style", "Palatino Linotype", "URW Palladio L", serif;
+    --sans: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Consolas, monospace;
+  }
+
+  :root[data-theme="dark"] {
+    --paper: #121a1b;
+    --card: #1a2325;
+    --card-line: #2c3739;
+    --ink: #e7efe9;
+    --ink-soft: #aebcb4;
+    --ink-faint: #728079;
+    --accent: #7fb9cc;
+    --accent-soft: #1e343b;
+    --good: #64c48c;
+    --good-soft: #17331f;
+    --risk: #e2934f;
+    --risk-soft: #3a2417;
+    --rule: #2c3739;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #121a1b;
+      --card: #1a2325;
+      --card-line: #2c3739;
+      --ink: #e7efe9;
+      --ink-soft: #aebcb4;
+      --ink-faint: #728079;
+      --accent: #7fb9cc;
+      --accent-soft: #1e343b;
+      --good: #64c48c;
+      --good-soft: #17331f;
+      --risk: #e2934f;
+      --risk-soft: #3a2417;
+      --rule: #2c3739;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--accent); }
+  a:focus-visible, button:focus-visible, summary:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--serif);
+    text-wrap: balance;
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .shell {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 clamp(16px, 4vw, 40px) 96px;
+  }
+
+  /* ---------- Masthead ---------- */
+
+  .masthead {
+    padding: clamp(28px, 6vw, 52px) 0 28px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  .masthead h1 {
+    margin: 10px 0 6px;
+    font-size: clamp(2rem, 4.4vw, 3rem);
+    letter-spacing: -0.01em;
+  }
+
+  .masthead .subtitle {
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+    max-width: 62ch;
+  }
+
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 22px;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    border: 1px solid var(--card-line);
+    background: var(--card);
+    color: var(--ink-soft);
+  }
+  .chip .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--good);
+    flex: none;
+  }
+  .chip.risk .dot { background: var(--risk); }
+
+  /* ---------- Layout: sidebar + main ---------- */
+
+  .layout {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: clamp(24px, 4vw, 56px);
+    margin-top: 36px;
+  }
+
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+    nav.toc {
+      position: static;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 16px;
+      margin-bottom: 8px;
+    }
+    nav.toc ol { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+    nav.toc ol li { break-inside: avoid; }
+  }
+
+  nav.toc {
+    position: sticky;
+    top: 24px;
+    align-self: start;
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+  }
+
+  nav.toc .toc-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 10px;
+  }
+
+  nav.toc ol {
+    list-style: none;
+    margin: 0; padding: 0;
+    counter-reset: toc;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  nav.toc a {
+    display: block;
+    padding: 5px 0;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    padding-left: 10px;
+    margin-left: -11px;
+  }
+  nav.toc a:hover { color: var(--ink); border-left-color: var(--card-line); }
+
+  main { min-width: 0; }
+
+  section {
+    padding: 40px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  section:last-of-type { border-bottom: none; }
+
+  section h2 {
+    font-size: 1.55rem;
+    margin: 0 0 6px;
+  }
+
+  section .section-kicker {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  section > p.lede {
+    color: var(--ink-soft);
+    max-width: 68ch;
+    margin: 10px 0 22px;
+  }
+
+  p { max-width: 72ch; }
+  section .full-width-note { max-width: none; }
+
+  code {
+    font-family: var(--mono);
+    font-size: 0.88em;
+    background: var(--card);
+    border: 1px solid var(--card-line);
+    padding: 0.1em 0.4em;
+    border-radius: 3px;
+  }
+
+  /* ---------- Architecture diagram ---------- */
+
+  .diagram {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 24px 0 8px;
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+
+  .d-row { display: flex; justify-content: center; }
+  .d-arrow {
+    text-align: center;
+    color: var(--ink-faint);
+    font-size: 14px;
+    line-height: 1.2;
+  }
+
+  .d-box {
+    border: 1px solid var(--card-line);
+    background: var(--card);
+    border-radius: 4px;
+    padding: 10px 16px;
+    text-align: center;
+    color: var(--ink);
+  }
+  .d-box.wide { min-width: min(100%, 480px); }
+  .d-box .d-sub { color: var(--ink-faint); font-size: 11.5px; margin-top: 2px; }
+
+  .d-tools {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 10px;
+    width: 100%;
+    max-width: 720px;
+  }
+  .d-tools .d-box { border-color: var(--accent); }
+
+  .d-sinks {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: 10px;
+    width: 100%;
+    max-width: 720px;
+  }
+
+  /* ---------- Phase timeline ---------- */
+
+  .phases {
+    list-style: none;
+    margin: 0; padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .phase {
+    display: grid;
+    grid-template-columns: 44px minmax(0,1fr);
+    gap: 18px;
+    position: relative;
+    padding-bottom: 30px;
+  }
+  .phase:last-child { padding-bottom: 0; }
+
+  .phase .num-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .phase .num {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono);
+    font-size: 13px;
+    flex: none;
+  }
+  .phase .stem {
+    flex: 1;
+    width: 1px;
+    background: var(--card-line);
+    margin-top: 6px;
+  }
+  .phase:last-child .stem { display: none; }
+
+  .phase h3 {
+    font-size: 1.08rem;
+    margin: 3px 0 6px;
+  }
+  .phase .phase-file {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-faint);
+    margin-bottom: 8px;
+  }
+  .phase p { color: var(--ink-soft); margin: 0 0 6px; max-width: 66ch; }
+  .phase p:last-child { margin-bottom: 0; }
+  .phase strong { color: var(--ink); }
+
+  /* ---------- Tables ---------- */
+
+  .table-wrap { overflow-x: auto; margin: 18px 0; }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 480px;
+    font-size: 14.5px;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--rule);
+    font-variant-numeric: tabular-nums;
+  }
+
+  th {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 500;
+  }
+
+  td.num, th.num { text-align: right; }
+  td.highlight { color: var(--accent); font-weight: 600; }
+  tr.highlight-row td { background: var(--accent-soft); }
+
+  .table-caption {
+    font-size: 13px;
+    color: var(--ink-faint);
+    margin-top: -8px;
+    margin-bottom: 18px;
+    max-width: 68ch;
+  }
+
+  /* ---------- Audit list ---------- */
+
+  .audit-list {
+    list-style: none;
+    margin: 0; padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .audit-item {
+    display: grid;
+    grid-template-columns: 108px minmax(0,1fr);
+    gap: 16px;
+    padding: 14px 16px;
+    background: var(--card);
+    border: 1px solid var(--card-line);
+    border-radius: 5px;
+    align-items: start;
+  }
+  @media (max-width: 560px) {
+    .audit-item { grid-template-columns: 1fr; gap: 8px; }
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    height: fit-content;
+    white-space: nowrap;
+  }
+  .status-pill.done { background: var(--good-soft); color: var(--good); }
+  .status-pill.minor { background: var(--risk-soft); color: var(--risk); }
+  .status-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  .audit-item h4 {
+    margin: 0 0 4px;
+    font-size: 0.98rem;
+    font-family: var(--sans);
+    font-weight: 600;
+  }
+  .audit-item p { margin: 0; color: var(--ink-soft); font-size: 14px; max-width: 66ch; }
+
+  /* ---------- Limitations grid ---------- */
+
+  .limits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 18px;
+    margin-top: 20px;
+  }
+
+  .limit-block h4 {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 10px;
+    font-weight: 500;
+  }
+
+  .limit-block ul {
+    margin: 0; padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .limit-block li {
+    font-size: 14px;
+    color: var(--ink-soft);
+    padding-left: 14px;
+    position: relative;
+  }
+  .limit-block li::before {
+    content: "–";
+    position: absolute;
+    left: 0;
+    color: var(--ink-faint);
+  }
+
+  /* ---------- Footer ---------- */
+
+  footer {
+    padding-top: 32px;
+    color: var(--ink-faint);
+    font-size: 13px;
+  }
+  footer p { max-width: none; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    section { scroll-margin-top: 20px; }
+  }
+</style>
+
+<div class="shell">
+
+  <header class="masthead">
+    <div class="eyebrow">Rapport de projet — synthèse technique</div>
+    <h1>FraudScope AI</h1>
+    <p class="subtitle">
+      Assistant d'investigation de fraude en assurance santé, augmenté par IA générative.
+      Ce document résume le pourquoi, l'architecture, les sept phases de construction,
+      les résultats mesurés et les corrections apportées lors de l'audit du dépôt.
+    </p>
+    <div class="meta-row">
+      <span class="chip"><span class="dot"></span>18/18 tests — CI verte</span>
+      <span class="chip"><span class="dot"></span>ruff clean · pip-audit clean</span>
+      <span class="chip"><span class="dot"></span>Python 3.13 · lockfile épinglé</span>
+      <span class="chip risk"><span class="dot"></span>Données synthétiques uniquement</span>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav class="toc" aria-label="Sommaire">
+      <div class="toc-label">Sommaire</div>
+      <ol>
+        <li><a href="#pourquoi">Pourquoi ce projet</a></li>
+        <li><a href="#architecture">Comment ça marche</a></li>
+        <li><a href="#phases">Les 7 phases</a></li>
+        <li><a href="#resultats">Résultats mesurés</a></li>
+        <li><a href="#audit">Audit &amp; corrections</a></li>
+        <li><a href="#limites">Limites connues</a></li>
+      </ol>
+    </nav>
+
+    <main>
+
+      <section id="pourquoi">
+        <div class="section-kicker">Contexte</div>
+        <h2>Pourquoi ce projet</h2>
+        <p class="lede">
+          Un modèle de scoring de fraude produit un chiffre. Un enquêteur a besoin
+          d'une explication qu'il peut relire, challenger et documenter.
+        </p>
+        <p>
+          FraudScope AI reprend une problématique réelle — la détection de fraude sur
+          les remboursements optiques (lunettes, lentilles) en assurance santé — et
+          ajoute une couche GenAI par-dessus un pipeline ML classique. L'objectif n'est
+          jamais de remplacer l'enquêteur ni de conclure à une fraude avérée : le
+          système qualifie un niveau de risque, explique les signaux qui l'ont produit,
+          cite les règles réglementaires applicables, et laisse la décision finale à un
+          humain.
+        </p>
+        <p>
+          Les données sont entièrement <strong>synthétiques</strong>, générées par un
+          script dédié pour reproduire une logique métier plausible sans exposer la
+          moindre donnée personnelle ou confidentielle.
+        </p>
+      </section>
+
+      <section id="architecture">
+        <div class="section-kicker">Fonctionnement</div>
+        <h2>Comment ça marche</h2>
+        <p class="lede">
+          Un enquêteur soumet un dossier via l'interface ou l'API ; un agent décide
+          lui-même quels outils appeler pour construire sa réponse.
+        </p>
+
+        <div class="diagram" role="img" aria-label="Streamlit envoie le dossier à FastAPI, qui appelle l'agent LangGraph ; l'agent orchestre trois outils (scoring ML, retrieval RAG, générateur de rapport) qui s'appuient respectivement sur un modèle sklearn/XGBoost suivi par MLflow, une base Qdrant, et un LLM Claude ; l'ensemble est tracé par Langfuse et évalué en LLM-as-judge.">
+          <div class="d-row"><div class="d-box wide"><strong>Interface Streamlit</strong><div class="d-sub">soumission d'un dossier de sinistre</div></div></div>
+          <div class="d-arrow">↓</div>
+          <div class="d-row"><div class="d-box wide"><strong>API FastAPI</strong><div class="d-sub">POST /investigate</div></div></div>
+          <div class="d-arrow">↓</div>
+          <div class="d-row"><div class="d-box wide" style="border-color:var(--accent)"><strong>Agent LangGraph</strong><div class="d-sub">le LLM décide quels outils appeler, et dans quel ordre</div></div></div>
+          <div class="d-arrow">↓</div>
+          <div class="d-row">
+            <div class="d-tools">
+              <div class="d-box">Scoring ML<div class="d-sub">score_claim</div></div>
+              <div class="d-box">Retrieval RAG<div class="d-sub">search_regulation</div></div>
+              <div class="d-box">Rapport<div class="d-sub">generate_report</div></div>
+            </div>
+          </div>
+          <div class="d-arrow">↓</div>
+          <div class="d-row">
+            <div class="d-sinks">
+              <div class="d-box">sklearn / XGBoost<div class="d-sub">+ MLflow</div></div>
+              <div class="d-box">Qdrant<div class="d-sub">vector DB + BM25</div></div>
+              <div class="d-box">LLM Claude<div class="d-sub">Anthropic</div></div>
+            </div>
+          </div>
+          <div class="d-arrow">↓</div>
+          <div class="d-row"><div class="d-box wide"><strong>Langfuse</strong><div class="d-sub">tracing, coûts, latence + évaluation LLM-as-judge</div></div></div>
+        </div>
+
+        <p>
+          Point clé d'architecture : rien n'est câblé en dur. C'est le LLM qui, via
+          function calling, décide s'il doit scorer le dossier, chercher un texte
+          réglementaire, ou rédiger directement le rapport — typiquement
+          <code>score_claim</code> → <code>search_regulation</code> si le score dépasse
+          40&nbsp;% → <code>generate_investigation_report</code>.
+        </p>
+        <p>
+          Un <strong>mode offline</strong> déterministe court-circuite tout ce
+          schéma : un score heuristique explicable et un retrieval BM25 local
+          produisent un rapport complet sans clé LLM, sans MLflow, sans Qdrant ni
+          Langfuse — utile pour faire tourner la démo instantanément.
+        </p>
+      </section>
+
+      <section id="phases">
+        <div class="section-kicker">Construction</div>
+        <h2>Les 7 phases du projet</h2>
+        <p class="lede">
+          Chaque phase a été committée séparément pour garder un historique Git
+          lisible ; toutes les sept sont terminées.
+        </p>
+
+        <ol class="phases">
+          <li class="phase">
+            <div class="num-col"><div class="num">1</div><div class="stem"></div></div>
+            <div>
+              <h3>Dataset synthétique &amp; scoring ML</h3>
+              <div class="phase-file">data/generate_synthetic_data.py · src/ml/</div>
+              <p>
+                20&nbsp;000 dossiers optiques synthétiques (~12&nbsp;% de fraude, signal
+                volontairement bruité). Trois modèles comparés — Logistic Regression,
+                Random Forest, XGBoost — sélectionnés par un <strong>score robuste
+                pénalisé</strong> qui défavorise l'instabilité entre folds plutôt que de
+                ne regarder que l'AUC test.
+              </p>
+              <p>
+                Métriques complètes : lift par décile (1 à 10), écart train/test, Brier
+                score, log loss, taux de faux positifs/négatifs.
+              </p>
+            </div>
+          </li>
+
+          <li class="phase">
+            <div class="num-col"><div class="num">2</div><div class="stem"></div></div>
+            <div>
+              <h3>RAG réglementaire hybride</h3>
+              <div class="phase-file">src/rag/ingest.py · src/rag/retriever.py</div>
+              <p>
+                Corpus de 6 documents métier (seuils de prix, cohérence DPEC/RC,
+                réclamations groupées, jour de réclamation, plus 2 documents distracteurs
+                hors périmètre — dentaire, hospitalisation) indexé dans Qdrant.
+              </p>
+              <p>
+                Retrieval <strong>hybride</strong> : recherche dense (embeddings
+                multilingues) + BM25 lexical, fusionnés par Reciprocal Rank Fusion — le
+                BM25 rattrape le vocabulaire réglementaire précis que le dense peut
+                manquer.
+              </p>
+            </div>
+          </li>
+
+          <li class="phase">
+            <div class="num-col"><div class="num">3</div><div class="stem"></div></div>
+            <div>
+              <h3>Agent LangGraph, function calling réel</h3>
+              <div class="phase-file">src/agent/graph.py · src/agent/tools.py</div>
+              <p>
+                Boucle agent ↔ outils modélisée comme un graphe d'états : le LLM reçoit
+                le dossier, appelle les outils dans l'ordre qu'il juge nécessaire, puis
+                rédige la synthèse finale. Aucun pipeline figé <code>score → rag →
+                rapport</code> — c'est le raisonnement du modèle qui pilote.
+              </p>
+            </div>
+          </li>
+
+          <li class="phase">
+            <div class="num-col"><div class="num">4</div><div class="stem"></div></div>
+            <div>
+              <h3>Observabilité Langfuse</h3>
+              <div class="phase-file">src/eval/langfuse_setup.py</div>
+              <p>
+                Chaque exécution est tracée : latence par étape, coût/tokens des appels
+                LLM, lien vers la trace individuelle pour le debug. Le tracing est
+                <strong>non bloquant</strong> — sans clé Langfuse configurée, l'agent
+                tourne quand même, simplement sans trace.
+              </p>
+            </div>
+          </li>
+
+          <li class="phase">
+            <div class="num-col"><div class="num">5</div><div class="stem"></div></div>
+            <div>
+              <h3>Interface Streamlit &amp; export PDF</h3>
+              <div class="phase-file">streamlit_app/app.py · src/reporting/pdf_export.py</div>
+              <p>
+                Formulaire de saisie d'un dossier, rapport affiché en Markdown, puis
+                téléchargeable en PDF (fpdf2) — mise en page minimale mais suffisante
+                pour un livrable archivable par un enquêteur.
+              </p>
+            </div>
+          </li>
+
+          <li class="phase">
+            <div class="num-col"><div class="num">6</div><div class="stem"></div></div>
+            <div>
+              <h3>Évaluation RAG en LLM-as-judge maison</h3>
+              <div class="phase-file">src/eval/rag_eval.py</div>
+              <p>
+                RAGAS écarté (conflit de dépendances avec l'écosystème LangGraph 1.x
+                utilisé par l'agent) au profit d'une évaluation maison : trois jugements
+                structurés — <em>faithfulness</em>, <em>answer relevancy</em>,
+                <em>answer correctness</em> — plus Precision@K / Recall@K / NDCG@K
+                calculées sur les sources attendues.
+              </p>
+            </div>
+          </li>
+
+          <li class="phase">
+            <div class="num-col"><div class="num">7</div></div>
+            <div>
+              <h3>Mode démo offline</h3>
+              <div class="phase-file">src/agent/offline.py</div>
+              <p>
+                Score heuristique explicable (pondération de signaux métier : prix hors
+                norme, écart DPEC/RC, dimanche, burst prestataire, téléphone invalide) +
+                retrieval BM25 local. Zéro dépendance externe, zéro clé — le projet se
+                démontre en une commande.
+              </p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section id="resultats">
+        <div class="section-kicker">Chiffres</div>
+        <h2>Résultats mesurés</h2>
+        <p class="lede">
+          Sur données synthétiques — la méthodologie reproduit celle utilisée en
+          stage, les chiffres eux ne sont pas transposables tels quels à un cas réel.
+        </p>
+
+        <h3 style="font-size:1rem; font-family:var(--sans); margin-bottom: 4px;">Scoring ML</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Métrique</th><th class="num">Logistic Reg.</th><th class="num">Random Forest</th><th class="num">XGBoost (retenu)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>AUC test</td><td class="num">0.759</td><td class="num">0.764</td><td class="num">0.756</td></tr>
+              <tr><td>Gap train/test AUC</td><td class="num">0.007</td><td class="num">0.048</td><td class="num">0.150</td></tr>
+              <tr><td>Lift @ 1er décile</td><td class="num">3.71</td><td class="num">3.96</td><td class="num">3.87</td></tr>
+              <tr class="highlight-row"><td>Score robuste pénalisé</td><td class="num">0.560</td><td class="num">0.580</td><td class="num highlight">0.668</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-caption">
+          XGBoost gagne sur le score robuste pénalisé (validation croisée), mais son AUC
+          test est légèrement <em>inférieure</em> à celle de Random Forest et son gap
+          train/test nettement plus élevé — un compromis de prototype à challenger avant
+          tout usage sérieux (calibration, matrice de coûts, SHAP).
+        </p>
+
+        <h3 style="font-size:1rem; font-family:var(--sans); margin-bottom: 4px;">Retrieval RAG (BM25, sans clé LLM)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Métrique</th><th class="num">Valeur</th></tr></thead>
+            <tbody>
+              <tr><td>Precision@5 moyenne</td><td class="num">0.200</td></tr>
+              <tr><td>Recall@5 moyenne</td><td class="num">1.000</td></tr>
+              <tr><td>NDCG@5 moyen</td><td class="num">0.966</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-caption">
+          Sur 6 documents réglementaires (4 optiques + 2 distracteurs hors périmètre) et
+          11 questions annotées. Recall parfait : le bon document est toujours retrouvé ;
+          la precision mécaniquement basse s'explique par un seul document pertinent
+          attendu sur 5 emplacements retournés. Chiffres reproduits et vérifiés pendant
+          l'audit — pas de valeurs inventées.
+        </p>
+      </section>
+
+      <section id="audit">
+        <div class="section-kicker">Revue de code</div>
+        <h2>Audit &amp; corrections apportées</h2>
+        <p class="lede">
+          Deux passes d'audit sur ce dépôt, chaque point vérifié en conditions réelles
+          (tests rejoués, CI GitHub consultée), pas seulement lu sur le diff.
+        </p>
+
+        <ul class="audit-list">
+          <li class="audit-item">
+            <span class="status-pill done"><span class="dot"></span>Corrigé</span>
+            <div>
+              <h4>Initialisation Langfuse non paresseuse</h4>
+              <p>
+                Le client Langfuse s'instanciait au chargement du module, même en mode
+                offline sans clé configurée, déclenchant un warning d'authentification à
+                chaque exécution. Corrigé : construction à la demande dans
+                <code>get_callback_config()</code>, protégée par
+                <code>is_langfuse_configured()</code>.
+              </p>
+            </div>
+          </li>
+          <li class="audit-item">
+            <span class="status-pill done"><span class="dot"></span>Corrigé</span>
+            <div>
+              <h4>Multi-fournisseur LLM documenté mais absent</h4>
+              <p>
+                Le README et <code>.env.example</code> annonçaient GPT/OpenAI et Mistral
+                local via Ollama comme alternatives configurables ; aucune des variables
+                associées n'était lue dans le code, câblé uniquement sur Claude. Périmètre
+                assumé et documenté comme Claude-only ; mentions et dépendance
+                <code>openai</code> retirées.
+              </p>
+            </div>
+          </li>
+          <li class="audit-item">
+            <span class="status-pill done"><span class="dot"></span>Corrigé</span>
+            <div>
+              <h4>Documentation périmée</h4>
+              <p>
+                <code>docs/project_card.md</code> listait encore l'ajout de screenshots
+                comme TODO alors qu'ils étaient déjà dans le README. Retiré.
+              </p>
+            </div>
+          </li>
+          <li class="audit-item">
+            <span class="status-pill done"><span class="dot"></span>Corrigé</span>
+            <div>
+              <h4>Aucun lockfile de dépendances</h4>
+              <p>
+                <code>requirements.txt</code> ne fixait que des bornes minimales
+                (<code>&gt;=</code>), risque de dérive silencieuse entre deux
+                installations. <code>requirements.lock.txt</code> ajouté via
+                <code>pip-compile</code>, la CI installe désormais depuis ce fichier.
+              </p>
+            </div>
+          </li>
+          <li class="audit-item">
+            <span class="status-pill done"><span class="dot"></span>Corrigé</span>
+            <div>
+              <h4>Images Docker sur <code>:latest</code></h4>
+              <p>
+                <code>docker-compose.yml</code> épinglé sur <code>qdrant:v1.18.3</code> et
+                <code>langfuse:2.95.11</code> (la ligne Langfuse 3+ exige ClickHouse/Redis/
+                stockage objet, hors périmètre de ce compose minimal).
+              </p>
+            </div>
+          </li>
+          <li class="audit-item">
+            <span class="status-pill done"><span class="dot"></span>Corrigé</span>
+            <div>
+              <h4>Pas de lint ni de scan sécurité en CI</h4>
+              <p>
+                <code>ruff check .</code> et <code>pip-audit</code> ajoutés au workflow
+                GitHub Actions ; les 18 signalements ruff du premier passage (imports
+                non triés, <code>except</code> trop large, <code>datetime.now()</code>
+                naïf) corrigés avant activation.
+              </p>
+            </div>
+          </li>
+          <li class="audit-item">
+            <span class="status-pill done"><span class="dot"></span>Auto-détecté &amp; corrigé</span>
+            <div>
+              <h4>Bug CI : marqueur <code>pywin32</code> manquant</h4>
+              <p>
+                Le lockfile généré sous Windows avait perdu le marqueur
+                <code>sys_platform == "win32"</code> sur une dépendance conditionnelle de
+                <code>docker</code>, faisant échouer l'installation sur le runner Linux.
+                Diagnostiqué et corrigé dans la foulée, avec le rationale tracé dans
+                <code>docs/decisions.md</code>.
+              </p>
+            </div>
+          </li>
+          <li class="audit-item">
+            <span class="status-pill minor"><span class="dot"></span>Mineur, non bloquant</span>
+            <div>
+              <h4>Lockfile sans hashes</h4>
+              <p>
+                <code>requirements.lock.txt</code> ne vérifie pas l'intégrité binaire des
+                paquets (<code>pip-compile --generate-hashes</code>). <code>pip-audit</code>
+                tourne clean malgré tout ; à envisager seulement si le niveau d'exigence
+                supply-chain doit monter davantage.
+              </p>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section id="limites">
+        <div class="section-kicker">Honnêteté du prototype</div>
+        <h2>Limites connues</h2>
+        <p class="lede">
+          Documentées par le projet lui-même (<code>docs/limitations.md</code>) — un
+          score élevé n'est jamais une preuve de fraude, la décision reste humaine.
+        </p>
+
+        <div class="limits-grid">
+          <div class="limit-block">
+            <h4>Données &amp; scoring</h4>
+            <ul>
+              <li>Dataset entièrement synthétique, non transposable tel quel</li>
+              <li>Seuil de risque faible/moyen/élevé encore heuristique</li>
+              <li>Pas d'explicabilité locale (SHAP) pour l'instant</li>
+              <li>Coût métier faux positifs/négatifs non formalisé</li>
+            </ul>
+          </div>
+          <div class="limit-block">
+            <h4>RAG &amp; agent</h4>
+            <ul>
+              <li>Corpus pédagogique de 6 documents, non exhaustif</li>
+              <li>Jeu d'évaluation annoté encore court (11 questions)</li>
+              <li>Pas de human-in-the-loop pour corriger un rapport</li>
+              <li>Dépend du fournisseur/modèle/température du LLM</li>
+            </ul>
+          </div>
+          <div class="limit-block">
+            <h4>API &amp; UI</h4>
+            <ul>
+              <li>Pas d'authentification sur l'API</li>
+              <li>Validation Pydantic de <code>claim_data</code> encore permissive</li>
+              <li>Interface Streamlit : démo, pas un outil métier complet</li>
+              <li>Export PDF simple, sans annexes ni pièces jointes</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <p>
+          FraudScope AI — projet portfolio, données synthétiques uniquement. Tous droits
+          réservés ; dépôt public à titre de consultation, aucune licence de réutilisation
+          accordée sans autorisation de l'auteur.
+        </p>
+      </footer>
+
+    </main>
+  </div>
+</div>
