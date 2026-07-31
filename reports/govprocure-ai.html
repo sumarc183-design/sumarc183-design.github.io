@@ -1,0 +1,650 @@
+<meta charset="utf-8">
+<title>GovProcure AI — Rapport de projet</title>
+<style>
+  :root {
+    --ink: #1c2230;
+    --paper: #f1f3f7;
+    --surface: #ffffff;
+    --surface-sunken: #e8ebf1;
+    --muted: #5a6272;
+    --faint: #8891a0;
+    --line: #dde1e8;
+    --accent: #2b3f8c;
+    --accent-tint: #e7ebf7;
+    --warn: #a15b1f;
+    --warn-tint: #f5e9db;
+    --bug: #a52430;
+    --bug-tint: #f7e3e2;
+    --good: #276b4f;
+    --good-tint: #e1ede6;
+    --code-bg: #e8ebf1;
+    --shadow: 0 1px 2px rgba(28, 34, 48, 0.05), 0 10px 28px rgba(28, 34, 48, 0.07);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #e7eaf1;
+      --paper: #10131b;
+      --surface: #161a24;
+      --surface-sunken: #1b2029;
+      --muted: #a3abbd;
+      --faint: #6b7386;
+      --line: #262c3a;
+      --accent: #8393d6;
+      --accent-tint: #1c2440;
+      --warn: #e0a15a;
+      --warn-tint: #2c2013;
+      --bug: #e2626d;
+      --bug-tint: #2c1418;
+      --good: #6bbf9a;
+      --good-tint: #12261d;
+      --code-bg: #1b2029;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 10px 28px rgba(0, 0, 0, 0.4);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #e7eaf1;
+    --paper: #10131b;
+    --surface: #161a24;
+    --surface-sunken: #1b2029;
+    --muted: #a3abbd;
+    --faint: #6b7386;
+    --line: #262c3a;
+    --accent: #8393d6;
+    --accent-tint: #1c2440;
+    --warn: #e0a15a;
+    --warn-tint: #2c2013;
+    --bug: #e2626d;
+    --bug-tint: #2c1418;
+    --good: #6bbf9a;
+    --good-tint: #12261d;
+    --code-bg: #1b2029;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 10px 28px rgba(0, 0, 0, 0.4);
+  }
+  :root[data-theme="light"] {
+    --ink: #1c2230;
+    --paper: #f1f3f7;
+    --surface: #ffffff;
+    --surface-sunken: #e8ebf1;
+    --muted: #5a6272;
+    --faint: #8891a0;
+    --line: #dde1e8;
+    --accent: #2b3f8c;
+    --accent-tint: #e7ebf7;
+    --warn: #a15b1f;
+    --warn-tint: #f5e9db;
+    --bug: #a52430;
+    --bug-tint: #f7e3e2;
+    --good: #276b4f;
+    --good-tint: #e1ede6;
+    --code-bg: #e8ebf1;
+    --shadow: 0 1px 2px rgba(28, 34, 48, 0.05), 0 10px 28px rgba(28, 34, 48, 0.07);
+  }
+
+  * { box-sizing: border-box; }
+  html { color-scheme: light dark; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Georgia, "Iowan Old Style", "Noto Serif", serif;
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection { background: var(--accent-tint); color: var(--ink); }
+
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  a:focus-visible, [tabindex]:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  h1, h2, h3, .heading-face {
+    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    color: var(--ink);
+    font-weight: 700;
+    letter-spacing: -0.012em;
+    text-wrap: balance;
+  }
+
+  .mono {
+    font-family: ui-monospace, "SFMono-Regular", "Cascadia Code", Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  code {
+    font-family: ui-monospace, "SFMono-Regular", "Cascadia Code", Consolas, monospace;
+    font-size: 0.86em;
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    padding: 0.1em 0.4em;
+    border-radius: 3px;
+  }
+
+  /* ---------- Layout shell ---------- */
+
+  .shell { max-width: 1180px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 44px) 100px; }
+
+  header.masthead {
+    padding: clamp(30px, 6vw, 56px) 0 30px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eyebrow {
+    font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  header.masthead h1 {
+    margin: 12px 0 10px;
+    font-size: clamp(2rem, 4.6vw, 3.1rem);
+  }
+
+  header.masthead .lede {
+    max-width: 66ch;
+    color: var(--muted);
+    font-size: 1.08rem;
+    margin: 0;
+  }
+
+  .fact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 24px;
+    font-family: ui-monospace, "SFMono-Regular", "Cascadia Code", Consolas, monospace;
+    font-size: 0.78rem;
+  }
+  .fact-row span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 11px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    border-radius: 3px;
+    color: var(--muted);
+  }
+  .fact-row span::before {
+    content: "";
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--good);
+    flex: none;
+  }
+  .fact-row span.is-caveat::before { background: var(--warn); }
+
+  /* ---------- Layout: sidebar + main ---------- */
+
+  .layout {
+    display: grid;
+    grid-template-columns: 210px minmax(0, 1fr);
+    gap: clamp(24px, 4vw, 56px);
+    margin-top: 8px;
+  }
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+    nav.toc { position: static; border-bottom: 1px solid var(--line); padding: 18px 0; }
+    nav.toc ol { display: flex; flex-wrap: wrap; gap: 2px 18px; }
+  }
+
+  nav.toc {
+    position: sticky; top: 20px; align-self: start;
+    max-height: calc(100vh - 40px); overflow-y: auto;
+    padding-top: 34px;
+  }
+  nav.toc .label {
+    font-family: ui-monospace, monospace;
+    font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--faint); margin-bottom: 10px;
+  }
+  nav.toc ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1px; }
+  nav.toc a {
+    display: block; padding: 5px 0 5px 11px; margin-left: -12px;
+    font-family: -apple-system, "Segoe UI", sans-serif;
+    font-size: 13.5px; color: var(--muted);
+    border-left: 2px solid transparent;
+  }
+  nav.toc a:hover { color: var(--ink); border-left-color: var(--line); }
+
+  main { min-width: 0; padding-top: 34px; }
+
+  section { padding: 38px 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type { border-bottom: none; }
+  section .kicker {
+    font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size: 0.74rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 8px;
+  }
+  section h2 { font-size: 1.5rem; margin: 0 0 18px; }
+  section p.lede { max-width: 68ch; color: var(--muted); margin: 0 0 20px; }
+  p { max-width: 72ch; }
+
+  /* ---------- Pipeline diagram ---------- */
+
+  .pipeline {
+    display: flex; flex-wrap: wrap; align-items: stretch; gap: 0;
+    margin: 24px 0 8px;
+    font-family: -apple-system, "Segoe UI", sans-serif;
+    font-size: 0.86rem;
+  }
+  .pipe-step {
+    flex: 1 1 150px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    padding: 14px 16px;
+    position: relative;
+  }
+  .pipe-step + .pipe-step { border-left: none; }
+  .pipe-step .n {
+    font-family: ui-monospace, monospace;
+    font-size: 11px; color: var(--faint); display: block; margin-bottom: 4px;
+  }
+  .pipe-step strong { display: block; margin-bottom: 3px; }
+  .pipe-step span.sub { color: var(--muted); font-size: 0.82rem; }
+  @media (max-width: 700px) {
+    .pipeline { flex-direction: column; }
+    .pipe-step + .pipe-step { border-left: 1px solid var(--line); border-top: none; }
+  }
+
+  /* ---------- Phase timeline ---------- */
+
+  .phases { list-style: none; margin: 0; padding: 0; }
+  .phase {
+    display: grid;
+    grid-template-columns: 120px minmax(0,1fr);
+    gap: 22px;
+    padding: 24px 0;
+    border-top: 1px solid var(--line);
+  }
+  .phase:first-child { border-top: none; }
+  .phase .tag {
+    font-family: ui-monospace, monospace;
+    font-size: 0.82rem;
+    color: var(--accent);
+  }
+  .phase h3 { font-size: 1.06rem; margin: 0 0 8px; }
+  .phase p { color: var(--muted); margin: 0 0 6px; max-width: 66ch; }
+  .phase p:last-child { margin-bottom: 0; }
+  @media (max-width: 620px) {
+    .phase { grid-template-columns: 1fr; gap: 6px; }
+  }
+
+  /* ---------- Tables ---------- */
+
+  .table-scroll { overflow-x: auto; margin: 4px 0 10px; }
+  table.data {
+    border-collapse: collapse; width: 100%; min-width: 460px; font-size: 0.92rem;
+    font-family: -apple-system, "Segoe UI", sans-serif;
+  }
+  table.data th, table.data td {
+    text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line);
+    font-variant-numeric: tabular-nums;
+  }
+  table.data th {
+    font-family: ui-monospace, monospace;
+    font-size: 0.7rem; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--faint); font-weight: 500;
+  }
+  table.data td.num, table.data th.num { text-align: right; }
+  table.data tr.is-best td { background: var(--accent-tint); }
+  table.data td.is-strong { color: var(--accent); font-weight: 700; }
+  .note { font-size: 0.9rem; color: var(--muted); max-width: 68ch; margin: -2px 0 30px; }
+  .result-block h3 { font-family: -apple-system, "Segoe UI", sans-serif; font-size: 1rem; margin: 0 0 12px; }
+
+  /* ---------- Bug cards ---------- */
+
+  .bug-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+  @media (max-width: 760px) { .bug-grid { grid-template-columns: 1fr; } }
+  .bug-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--bug);
+    padding: 20px 22px;
+    box-shadow: var(--shadow);
+  }
+  .bug-card .flag {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: ui-monospace, monospace; font-size: 0.7rem; letter-spacing: 0.03em;
+    color: var(--bug); text-transform: uppercase; font-weight: 600;
+  }
+  .bug-card h4 {
+    font-family: -apple-system, "Segoe UI", sans-serif;
+    font-size: 1.02rem; margin: 10px 0 8px;
+  }
+  .bug-card p { color: var(--muted); font-size: 0.92rem; margin: 0 0 8px; max-width: none; }
+  .bug-card .fix {
+    display: block; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--line);
+    font-size: 0.86rem; color: var(--good);
+  }
+  .bug-card .fix strong { color: var(--good); }
+
+  /* ---------- Limits ---------- */
+
+  .limits-grid {
+    display: grid; grid-template-columns: repeat(3, minmax(0,1fr));
+    gap: clamp(20px, 3vw, 36px);
+  }
+  @media (max-width: 860px) { .limits-grid { grid-template-columns: 1fr; } }
+  .limits-col h4 {
+    font-family: -apple-system, "Segoe UI", sans-serif;
+    font-size: 0.74rem; letter-spacing: 0.05em; text-transform: uppercase;
+    color: var(--warn); margin: 0 0 14px;
+  }
+  .limits-col ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+  .limits-col li {
+    padding-left: 18px; position: relative; color: var(--muted); font-size: 0.92rem;
+  }
+  .limits-col li::before {
+    content: ""; position: absolute; left: 0; top: 10px;
+    width: 10px; height: 1px; background: var(--warn);
+  }
+
+  footer.colophon {
+    padding-top: 30px; color: var(--faint); font-size: 0.86rem;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+  }
+</style>
+
+<div class="shell">
+  <header class="masthead">
+    <p class="eyebrow">Rapport de projet · Open data · Recherche hybride · Qualité</p>
+    <h1>GovProcure AI</h1>
+    <p class="lede">
+      Plateforme d'analyse des marchés publics français : qualité des données,
+      détection d'anomalies, recherche hybride en langage naturel, sur 3,14
+      millions de contrats en open data — avec chaque bug documenté de sa
+      découverte à sa correction, chiffres avant/après à l'appui.
+    </p>
+    <div class="fact-row">
+      <span>3,14M marchés analysés</span>
+      <span>111 tests collectés</span>
+      <span>R² = 0,676 (prédiction)</span>
+      <span class="is-caveat">2 bugs corrigés via revue externe</span>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav class="toc" aria-label="Sommaire">
+      <div class="label">Sommaire</div>
+      <ol>
+        <li><a href="#pourquoi">Pourquoi</a></li>
+        <li><a href="#fonctionnement">Fonctionnement</a></li>
+        <li><a href="#phases">Les blocs du projet</a></li>
+        <li><a href="#resultats">Résultats</a></li>
+        <li><a href="#bugs">Bugs trouvés &amp; corrigés</a></li>
+        <li><a href="#limites">Limites assumées</a></li>
+      </ol>
+    </nav>
+
+    <main>
+      <section id="pourquoi">
+        <p class="kicker">Contexte</p>
+        <h2>Un score d'anomalie sans preuve n'aide personne à décider.</h2>
+        <p class="lede">
+          Les données de la commande publique française (DECP) sont publiques,
+          mais brutes : montants incohérents, catégories mal normalisées,
+          marchés dupliqués par cotraitance. GovProcure AI construit une
+          chaîne complète — qualité, anomalies, recherche, prédiction — sur ce
+          corpus de 3,14 millions de contrats, en traitant la rigueur de la
+          mesure comme le vrai livrable, pas seulement le modèle.
+        </p>
+        <p class="lede" style="margin-bottom:0;">
+          Position assumée : le projet ne détecte pas la fraude — seulement des
+          anomalies statistiques à faire vérifier par un humain. Aucune vérité
+          terrain de fraude confirmée n'existe pour entraîner un modèle
+          supervisé, et ce choix méthodologique est documenté plutôt que
+          contourné artificiellement.
+        </p>
+      </section>
+
+      <section id="fonctionnement">
+        <p class="kicker">Fonctionnement</p>
+        <h2>Une chaîne à quatre étages, du fichier brut au résultat filtrable.</h2>
+        <p class="lede">
+          Chaque étage consomme la sortie nettoyée du précédent — la
+          déduplication par marché, apprise au bloc qualité, doit être reportée
+          manuellement à chaque étage suivant (une leçon apprise à ses dépens,
+          cf. section bugs).
+        </p>
+        <div class="pipeline" role="img" aria-label="Chargement et nettoyage des données DECP, puis score de qualité par colonne, puis détection d'anomalies par Isolation Forest et LOF, puis recherche hybride BM25 plus embeddings fusionnés par RRF, exposés dans un dashboard Streamlit à trois onglets.">
+          <div class="pipe-step"><span class="n">01</span><strong>Chargement &amp; nettoyage</strong><span class="sub">quality/loader.py, cleaning.py</span></div>
+          <div class="pipe-step"><span class="n">02</span><strong>Score de qualité</strong><span class="sub">audit.py — par colonne</span></div>
+          <div class="pipe-step"><span class="n">03</span><strong>Anomalies</strong><span class="sub">Isolation Forest + LOF</span></div>
+          <div class="pipe-step"><span class="n">04</span><strong>Recherche hybride</strong><span class="sub">BM25 + embeddings + RRF</span></div>
+          <div class="pipe-step"><span class="n">05</span><strong>Dashboard</strong><span class="sub">Streamlit, 3 onglets</span></div>
+        </div>
+        <p class="lede" style="margin-top:24px;">
+          La recherche filtre d'abord par critères stricts (région, montant),
+          puis fusionne un score lexical BM25 et un score sémantique
+          (embeddings multilingues légers, CPU) par Reciprocal Rank Fusion —
+          utile pour rattraper une requête reformulée sans aucun mot commun
+          avec le libellé d'origine.
+        </p>
+        <p class="lede" style="margin-bottom:0;">
+          Un cache disque des embeddings a été ajouté après le premier
+          diagnostic de lenteur : <strong>47x</strong> plus rapide sur une
+          recherche répétée (23,7&nbsp;s → 0,5&nbsp;s). Limite résiduelle : le
+          tout premier appel sur un sous-ensemble jamais rencontré reste aussi
+          lent qu'avant.
+        </p>
+      </section>
+
+      <section id="phases">
+        <p class="kicker">Construction</p>
+        <h2>Cinq blocs, plus un bloc bonus de prédiction supervisée.</h2>
+        <ol class="phases">
+          <li class="phase">
+            <span class="tag">Bloc 1</span>
+            <div>
+              <h3>Qualité des données</h3>
+              <p>
+                Score de fiabilité par colonne sur 3,14M lignes : montants
+                négatifs ou supérieurs à 1&nbsp;Md€, dates hors plage,
+                catégories mal normalisées (casse, accents) — 64&nbsp;408
+                montants incohérents détectés. Flags plutôt que suppression,
+                pour garder la traçabilité de chaque ligne.
+              </p>
+            </div>
+          </li>
+          <li class="phase">
+            <span class="tag">Bloc 2</span>
+            <div>
+              <h3>Détection d'anomalies</h3>
+              <p>
+                Isolation Forest et Local Outlier Factor comparés sur les
+                marchés dédupliqués par cotraitance. Taux d'accord de 4,5%
+                (écart-type 0,85% sur 5 tirages) — cohérent avec deux notions
+                différentes de l'anomalie, pas une preuve de complémentarité en
+                soi. Isolation Forest passe à l'échelle sur 3M lignes ; LOF non
+                au-delà de 2-3M (limite mémoire).
+              </p>
+            </div>
+          </li>
+          <li class="phase">
+            <span class="tag">Bloc 3</span>
+            <div>
+              <h3>Recherche hybride</h3>
+              <p>
+                Filtres + BM25 + embeddings fusionnés par RRF. Passé de 0/10 à
+                8/10 résultats pertinents après diagnostic et correction de
+                deux bugs réels de calcul de métriques. Évalué avec
+                Precision@K, Recall@K, NDCG@K, vérité terrain validée par
+                annotation humaine (100% d'accord sur 3 thèmes sur 4).
+              </p>
+            </div>
+          </li>
+          <li class="phase">
+            <span class="tag">Bloc 4</span>
+            <div>
+              <h3>Dashboard Streamlit</h3>
+              <p>
+                Interface à trois onglets (qualité, anomalies, recherche),
+                export CSV des résultats, revalidée manuellement après chaque
+                correction majeure des blocs précédents.
+              </p>
+            </div>
+          </li>
+          <li class="phase">
+            <span class="tag">Bloc 5</span>
+            <div>
+              <h3>Consolidation robustesse</h3>
+              <p>
+                Revue externe du code : deux bugs méthodologiques réels
+                trouvés et corrigés (déduplication anomalies, calcul NDCG).
+                Stabilité mesurée sur 5 tirages, biais documentés, synthèse
+                finale rédigée.
+              </p>
+            </div>
+          </li>
+          <li class="phase">
+            <span class="tag">Bonus</span>
+            <div>
+              <h3>Prédiction supervisée</h3>
+              <p>
+                Régression du nombre d'offres reçues par marché (Random
+                Forest, R²&nbsp;=&nbsp;0,676, MAE&nbsp;=&nbsp;5,45 offres),
+                comparée à une baseline naïve et à une régression Ridge. Biais
+                de sélection des données (taux de renseignement de 31% à 100%
+                selon le type de procédure) identifié et documenté, pas
+                masqué par une imputation artificielle.
+              </p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section id="resultats">
+        <p class="kicker">Chiffres</p>
+        <h2>Résultats mesurés, avec leurs conditions d'obtention.</h2>
+
+        <div class="result-block">
+          <h3>Prédiction du nombre d'offres reçues</h3>
+          <div class="table-scroll">
+            <table class="data">
+              <thead>
+                <tr><th>Modèle</th><th class="num">R² (réel)</th><th class="num">MAE (offres)</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Baseline (médiane)</td><td class="num">—</td><td class="num">—</td></tr>
+                <tr><td>Ridge</td><td class="num">plus faible</td><td class="num">plus élevé</td></tr>
+                <tr class="is-best"><td>Random Forest (retenu)</td><td class="num is-strong">0,676</td><td class="num is-strong">5,45</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note">
+            Validation croisée (5-fold) réalisée après la synthèse initiale :
+            R²&nbsp;=&nbsp;0,633&nbsp;±&nbsp;0,194, cohérent avec le résultat
+            sur un seul découpage. La recherche d'hyperparamètres n'a en
+            revanche <strong>pas</strong> amélioré le résultat sur le jeu de
+            test retenu (0,517 contre 0,596 en configuration par défaut).
+          </p>
+        </div>
+
+        <div class="result-block">
+          <h3>Anomalies — accord Isolation Forest / LOF</h3>
+          <div class="table-scroll">
+            <table class="data">
+              <thead><tr><th>Configuration</th><th class="num">Taux d'accord</th></tr></thead>
+              <tbody>
+                <tr><td>Montants bruts</td><td class="num">4,5%</td></tr>
+                <tr class="is-best"><td>Avec transformation log signé (testée)</td><td class="num is-strong">13,0%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note" style="margin-bottom:0;">
+            Résultat stable et reproductible (écart-type 0,85% sur 5 tirages).
+            La transformation log triple le taux d'accord — recommandée pour
+            tout usage futur, mais l'accord entre les deux méthodes reste une
+            observation, pas une preuve de complémentarité utile sans
+            validation métier.
+          </p>
+        </div>
+      </section>
+
+      <section id="bugs">
+        <p class="kicker">Rigueur méthodologique</p>
+        <h2>Deux bugs réels, trouvés via revue externe, corrigés et chiffrés.</h2>
+        <p class="lede">
+          Le différenciant du projet n'est pas l'absence de bugs, mais leur
+          traçabilité complète — de la découverte à la correction, preuve
+          avant/après à l'appui.
+        </p>
+        <div class="bug-grid">
+          <div class="bug-card">
+            <span class="flag">Bug trouvé</span>
+            <h4>Anomalies calculées sans déduplication par marché</h4>
+            <p>
+              <code>build_feature_matrix</code> ne dédupliquait pas les
+              marchés en cotraitance (jusqu'à une dizaine de lignes
+              identiques par appel d'offres) avant d'entraîner Isolation
+              Forest et LOF — les mêmes marchés apparaissaient plusieurs fois
+              dans les alertes.
+            </p>
+            <span class="fix"><strong>Corrigé :</strong> déduplication centralisée dans <code>build_feature_matrix</code>. Taux d'accord 5,4%→4,5% (écart-type 1,4%→0,85%) ; 10/10 UID uniques dans le top 10 après correction, contre des répétitions visibles avant.</span>
+          </div>
+          <div class="bug-card">
+            <span class="flag">Bug trouvé</span>
+            <h4>Calcul du NDCG@K incohérent</h4>
+            <p>
+              L'IDCG (dénominateur de normalisation) était calculé à partir
+              du nombre de documents pertinents <em>trouvés</em> dans le top
+              k, pas du nombre total existant dans le corpus — un classement
+              ratant la majorité des documents pertinents pouvait quand même
+              obtenir NDCG=1.0. Observé concrètement : Precision@10=0,7 avec
+              NDCG@10=1,0.
+            </p>
+            <span class="fix"><strong>Corrigé :</strong> IDCG recalculé sur le nombre réel de documents pertinents du corpus. Effet mesuré sur un cas réel : NDCG@10 passe de 0,431 à 0,146.</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="limites">
+        <p class="kicker">Honnêteté du prototype</p>
+        <h2>Limites assumées, pas contournées.</h2>
+        <p class="lede">
+          Un résultat nuancé documenté tel quel plutôt que présenté comme une
+          victoire uniforme.
+        </p>
+        <div class="limits-grid">
+          <div class="limits-col">
+            <h4>Recherche</h4>
+            <ul>
+              <li>Échec persistant sur certains thèmes ("maintenance des parcs municipaux" reste à 0% de précision)</li>
+              <li>RRF à poids égal peut dégrader un résultat déjà bon (cas "travaux de voirie")</li>
+              <li>Vérité terrain construite par mots-clés, validée sur 32 exemples seulement</li>
+            </ul>
+          </div>
+          <div class="limits-col">
+            <h4>Prédiction</h4>
+            <ul>
+              <li>Biais de sélection fort : taux de renseignement de 31% à 100% selon le type de procédure</li>
+              <li>Recherche d'hyperparamètres n'améliore pas le résultat par défaut</li>
+              <li>Limitée à un seul cas d'usage (nombre d'offres reçues)</li>
+            </ul>
+          </div>
+          <div class="limits-col">
+            <h4>Dashboard &amp; tests</h4>
+            <ul>
+              <li>5 tests fonctionnels nécessitent le dataset local, sautés en CI</li>
+              <li>2 tests Playwright marqués <code>xfail</code> après 9 tentatives (limite de l'automatisation headless, pas un bug du dashboard)</li>
+              <li>LOF ne passe pas à l'échelle au-delà de 2-3M lignes (limite mémoire)</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <footer class="colophon">
+        <span>GovProcure AI — projet personnel, données DECP sous Licence Ouverte / Open Licence 2.0.</span>
+        <span>Tous droits réservés sur le code.</span>
+      </footer>
+    </main>
+  </div>
+</div>
