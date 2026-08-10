@@ -1,7 +1,7 @@
 const header = document.querySelector(".site-header");
 const menuButton = document.querySelector(".menu-button");
 const nav = document.querySelector(".site-nav");
-const navLinks = Array.from(nav.querySelectorAll("a"));
+const navLinks = nav ? Array.from(nav.querySelectorAll("a")) : [];
 const year = document.querySelector("#year");
 const sections = navLinks
   .map((link) => document.querySelector(link.getAttribute("href")))
@@ -10,23 +10,28 @@ const sections = navLinks
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function updateHeader() {
+  if (!header) return;
   header.classList.toggle("is-scrolled", window.scrollY > 24);
 }
 
-menuButton.addEventListener("click", () => {
-  const isOpen = nav.classList.toggle("is-open");
-  menuButton.setAttribute("aria-expanded", String(isOpen));
-});
+if (menuButton && nav) {
+  menuButton.addEventListener("click", () => {
+    const isOpen = nav.classList.toggle("is-open");
+    menuButton.setAttribute("aria-expanded", String(isOpen));
+  });
+}
 
-nav.addEventListener("click", (event) => {
-  if (event.target.matches("a")) {
-    nav.classList.remove("is-open");
-    menuButton.setAttribute("aria-expanded", "false");
-  }
-});
+if (nav && menuButton) {
+  nav.addEventListener("click", (event) => {
+    if (event.target.matches("a")) {
+      nav.classList.remove("is-open");
+      menuButton.setAttribute("aria-expanded", "false");
+    }
+  });
+}
 
 window.addEventListener("scroll", updateHeader, { passive: true });
-year.textContent = new Date().getFullYear();
+if (year) year.textContent = new Date().getFullYear();
 updateHeader();
 
 // Scrollspy: highlight the nav link matching the section in view

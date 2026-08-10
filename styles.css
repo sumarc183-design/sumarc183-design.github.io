@@ -658,15 +658,46 @@ a {
 
 .today-grid {
   display: grid;
-  grid-template-columns: minmax(0, 0.55fr) minmax(0, 0.45fr);
+  grid-template-columns: minmax(0, 0.38fr) minmax(0, 0.34fr) minmax(0, 0.28fr);
   gap: clamp(24px, 4vw, 56px);
   align-items: start;
 }
 
 .now-panel h3,
+.target-panel h3,
 .beyond-panel h3 {
   margin: 0 0 16px;
   font-size: 1.1rem;
+}
+
+.target-panel {
+  padding: 24px;
+  border: 1px solid var(--line);
+  background: #fff;
+  box-shadow: 0 18px 42px rgba(10, 14, 18, 0.08);
+}
+
+.target-panel p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.target-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+  font-family: var(--font-mono);
+}
+
+.target-tags span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 10px;
+  border: 1px solid rgba(23, 69, 58, 0.22);
+  color: var(--ledger);
+  font-size: 0.76rem;
 }
 
 .now-list {
@@ -761,6 +792,32 @@ a {
 .project-card p {
   margin: 0;
   color: rgba(236, 238, 240, 0.76);
+}
+
+.case-strip {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.case-strip span {
+  display: block;
+  padding: 9px 10px;
+  border-left: 2px solid rgba(226, 166, 61, 0.55);
+  background: rgba(236, 238, 240, 0.055);
+  color: rgba(236, 238, 240, 0.78);
+  font-size: 0.84rem;
+  line-height: 1.4;
+}
+
+.case-strip b {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--signal);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
 }
 
 .project-metrics {
