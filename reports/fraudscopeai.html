@@ -4,6 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>FraudScope AI — Rapport de projet</title>
+<meta name="description" content="Rapport détaillé du projet FraudScope AI : scoring XGBoost, RAG réglementaire Qdrant/BM25, agent LangGraph et API FastAPI pour l'investigation de fraude santé.">
+<link rel="canonical" href="https://sumarc183-design.github.io/reports/fraudscopeai.html">
+<meta property="og:title" content="FraudScope AI — Rapport de projet">
+<meta property="og:description" content="Rapport détaillé du projet FraudScope AI : scoring XGBoost, RAG réglementaire Qdrant/BM25, agent LangGraph et API FastAPI pour l'investigation de fraude santé.">
+<meta property="og:image" content="https://sumarc183-design.github.io/assets/marc-su-portrait.jpg">
+<meta property="og:url" content="https://sumarc183-design.github.io/reports/fraudscopeai.html">
+<meta property="og:type" content="article">
+<meta name="theme-color" content="#eef1ec" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121a1b" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
 <style>
   :root {
     --paper: #eef1ec;
@@ -75,6 +85,13 @@
     outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
+  .skip-link {
+    position: absolute; top: -48px; left: 12px; z-index: 1000;
+    background: var(--accent); color: var(--paper);
+    padding: 10px 16px; border-radius: 6px; font-weight: 600;
+    transition: top 0.15s ease;
+  }
+  .skip-link:focus { top: 12px; }
 
   h1, h2, h3 {
     font-family: var(--serif);
@@ -485,6 +502,7 @@
 </style>
 </head>
 <body>
+<a href="#main" class="skip-link">Aller au contenu</a>
 
 <p style="max-width:1180px; margin:0 auto; padding:18px clamp(16px,4vw,40px) 0; font-family:var(--sans); font-size:13.5px;">
   <a href="https://sumarc183-design.github.io/#projets" style="color:var(--ink-soft);">&larr; Retour au portfolio</a>
@@ -521,7 +539,7 @@
       </ol>
     </nav>
 
-    <main>
+    <main id="main">
 
       <section id="pourquoi">
         <div class="section-kicker">Contexte</div>

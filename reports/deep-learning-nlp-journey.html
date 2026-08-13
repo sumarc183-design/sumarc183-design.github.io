@@ -4,6 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Deep Learning NLP Journey — Rapport de projet</title>
+<meta name="description" content="Rapport détaillé du projet Deep Learning NLP Journey : réseaux de neurones from scratch, Transformers, fine-tuning CamemBERT et RAG local.">
+<link rel="canonical" href="https://sumarc183-design.github.io/reports/deep-learning-nlp-journey.html">
+<meta property="og:title" content="Deep Learning NLP Journey — Rapport de projet">
+<meta property="og:description" content="Rapport détaillé du projet Deep Learning NLP Journey : réseaux de neurones from scratch, Transformers, fine-tuning CamemBERT et RAG local.">
+<meta property="og:image" content="https://sumarc183-design.github.io/assets/marc-su-portrait.jpg">
+<meta property="og:url" content="https://sumarc183-design.github.io/reports/deep-learning-nlp-journey.html">
+<meta property="og:type" content="article">
+<meta name="theme-color" content="#f4f5f3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d1512" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
 <style>
   :root {
     --bg: #f4f5f3;
@@ -94,6 +104,13 @@
   ::selection { background: var(--accent-tint); color: var(--ink); }
 
   a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  .skip-link {
+    position: absolute; top: -48px; left: 12px; z-index: 1000;
+    background: var(--accent); color: var(--accent-ink);
+    padding: 10px 16px; border-radius: 6px; font-weight: 600;
+    transition: top 0.15s ease;
+  }
+  .skip-link:focus { top: 12px; }
   a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 3px;
@@ -444,6 +461,7 @@
 </style>
 </head>
 <body>
+<a href="#main" class="skip-link">Aller au contenu</a>
 
 <p style="max-width:1180px; margin:0 auto; padding:18px clamp(16px,4vw,40px) 0; font-family:-apple-system,'Segoe UI',Roboto,Arial,sans-serif; font-size:13.5px;">
   <a href="https://sumarc183-design.github.io/#projets" style="color:var(--muted);">&larr; Retour au portfolio</a>
@@ -480,7 +498,7 @@
     </ol>
   </nav>
 
-  <main>
+  <main id="main">
 
     <section id="objectif">
       <span class="eyebrow">01 — Objectif</span>
