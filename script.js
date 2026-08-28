@@ -15,18 +15,28 @@ function updateHeader() {
 }
 
 if (menuButton && nav) {
-  menuButton.addEventListener("click", () => {
-    const isOpen = nav.classList.toggle("is-open");
-    menuButton.setAttribute("aria-expanded", String(isOpen));
-  });
-}
+  const setMenu = (open) => {
+    nav.classList.toggle("is-open", open);
+    menuButton.setAttribute("aria-expanded", String(open));
+  };
 
-if (nav && menuButton) {
+  menuButton.addEventListener("click", () => setMenu(!nav.classList.contains("is-open")));
+
   nav.addEventListener("click", (event) => {
-    if (event.target.matches("a")) {
-      nav.classList.remove("is-open");
-      menuButton.setAttribute("aria-expanded", "false");
+    if (event.target.matches("a")) setMenu(false);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && nav.classList.contains("is-open")) {
+      setMenu(false);
+      menuButton.focus();
     }
+  });
+
+  // Le panneau recouvre la page : on le ferme si le focus en sort
+  document.addEventListener("focusin", (event) => {
+    if (!nav.classList.contains("is-open")) return;
+    if (!nav.contains(event.target) && event.target !== menuButton) setMenu(false);
   });
 }
 

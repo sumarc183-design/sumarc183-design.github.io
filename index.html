@@ -8,8 +8,9 @@
       name="description"
       content="Portfolio de Marc Su, Data Scientist / ML Engineer : détection de fraude, scoring de risque, MLOps, recherche hybride sur données publiques et finance quantitative."
     />
-    <meta name="theme-color" content="#eceef0" />
-    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#eceef0" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#10171a" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
     <link rel="canonical" href="https://sumarc183-design.github.io/" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon.png" />
@@ -46,6 +47,72 @@
         "sameAs": [
           "https://www.linkedin.com/in/marc-su-698830400",
           "https://github.com/sumarc183-design"
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Projets de Marc Su",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@type": "SoftwareSourceCode",
+              "name": "FraudScope AI",
+              "codeRepository": "https://github.com/sumarc183-design/fraudscope-ai",
+              "description": "Assistant d'investigation de fraude assurance santé : scoring ML, RAG réglementaire hybride et agent LangGraph.",
+              "programmingLanguage": "Python",
+              "author": {
+                "@type": "Person",
+                "name": "Marc Su"
+              },
+              "subjectOf": {
+                "@type": "Article",
+                "url": "https://sumarc183-design.github.io/reports/fraudscopeai.html"
+              }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@type": "SoftwareSourceCode",
+              "name": "GovProcure AI",
+              "codeRepository": "https://github.com/sumarc183-design/govprocure-ai",
+              "description": "Plateforme d'analyse des marchés publics français : audit qualité, détection d'anomalies et recherche hybride.",
+              "programmingLanguage": "Python",
+              "author": {
+                "@type": "Person",
+                "name": "Marc Su"
+              },
+              "subjectOf": {
+                "@type": "Article",
+                "url": "https://sumarc183-design.github.io/reports/govprocure-ai.html"
+              }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "@type": "SoftwareSourceCode",
+              "name": "Deep Learning NLP Journey",
+              "codeRepository": "https://github.com/sumarc183-design/deep-learning-nlp-journey",
+              "description": "Parcours en quatre phases des réseaux from scratch aux Transformers et au RAG local.",
+              "programmingLanguage": "Python",
+              "author": {
+                "@type": "Person",
+                "name": "Marc Su"
+              },
+              "subjectOf": {
+                "@type": "Article",
+                "url": "https://sumarc183-design.github.io/reports/deep-learning-nlp-journey.html"
+              }
+            }
+          }
         ]
       }
     </script>
@@ -301,8 +368,12 @@
         </div>
         <div class="project-grid reveal">
           <article class="project-card">
+            <div class="project-thumb">
+              <img src="assets/fraudscope-ai.webp" alt="Rapport de risque généré par FraudScope AI" width="860" height="841" loading="lazy" decoding="async" />
+            </div>
             <span class="project-type">Fraude · GenAI · Machine learning</span>
             <h3>FraudScope AI</h3>
+            <p class="project-period">Juillet – août 2026 · 34 commits</p>
             <p>
               Assistant d'investigation de fraude assurance santé augmenté par LLM :
               scoring ML, RAG réglementaire, agent LangGraph avec véritable appel
@@ -325,6 +396,8 @@
               <li>FastAPI, Streamlit, Docker Compose, observabilité Langfuse</li>
             </ul>
             <div class="project-links">
+              <!-- Demo deployee : ajouter ici
+                   <a class="project-link" href="URL" target="_blank" rel="noopener noreferrer">Voir la demo</a> -->
               <a
                 class="project-link"
                 href="https://github.com/sumarc183-design/fraudscope-ai"
@@ -340,8 +413,12 @@
             </div>
           </article>
           <article class="project-card">
+            <div class="project-thumb">
+              <img src="assets/govprocure-ai.webp" alt="Dashboard de recherche GovProcure AI" width="1200" height="595" loading="lazy" decoding="async" />
+            </div>
             <span class="project-type">Open data · Recherche hybride · Qualité</span>
             <h3>GovProcure AI</h3>
+            <p class="project-period">Juillet – août 2026 · 62 commits</p>
             <p>
               Plateforme d'analyse des marchés publics français : audit qualité des
               données, détection d'anomalies, recherche hybride en langage naturel et
@@ -363,6 +440,8 @@
               <li>Isolation Forest, LOF, Random Forest, Streamlit, pytest, GitHub Actions</li>
             </ul>
             <div class="project-links">
+              <!-- Demo deployee : ajouter ici
+                   <a class="project-link" href="URL" target="_blank" rel="noopener noreferrer">Voir la demo</a> -->
               <a
                 class="project-link"
                 href="https://github.com/sumarc183-design/govprocure-ai"
@@ -378,8 +457,12 @@
             </div>
           </article>
           <article class="project-card">
+            <div class="project-thumb">
+              <img src="assets/deep-learning-nlp.webp" alt="Comparaison de modèles NLP sur un corpus français" width="1200" height="524" loading="lazy" decoding="async" />
+            </div>
             <span class="project-type">Deep learning · NLP · Transformers</span>
             <h3>Deep Learning NLP Journey</h3>
+            <p class="project-period">Juillet 2026 · 25 commits</p>
             <p>
               Projet fil rouge en quatre phases pour consolider les bases du deep
               learning jusqu'aux briques NLP modernes : réseaux from scratch,
@@ -401,6 +484,8 @@
               <li>Fine-tuning Hugging Face CamemBERT, FAISS, mini-chatbot RAG local</li>
             </ul>
             <div class="project-links">
+              <!-- Demo deployee : ajouter ici
+                   <a class="project-link" href="URL" target="_blank" rel="noopener noreferrer">Voir la demo</a> -->
               <a
                 class="project-link"
                 href="https://github.com/sumarc183-design/deep-learning-nlp-journey"
@@ -418,8 +503,8 @@
         </div>
 
         <div class="further-heading reveal">
-          <h3>Explorations académiques</h3>
-          <span>Modélisation mathématique & probabilités</span>
+          <h3>Autres travaux</h3>
+          <span>Projet interne · modélisation mathématique & probabilités</span>
         </div>
         <div class="further-projects reveal">
           <div class="further-item">

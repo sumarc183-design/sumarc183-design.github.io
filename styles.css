@@ -14,6 +14,7 @@
   --paper: #eceef0;
   --surface: #ffffff;
   --ledger: #17453a;
+  --ledger-text: #17453a;
   --ledger-dark: #0d2b23;
   --ledger-light: #4fae94;
   --signal: #e2a63d;
@@ -212,8 +213,8 @@ a {
 }
 
 .site-header.is-scrolled .header-cv {
-  color: var(--ledger);
-  border-color: var(--ledger);
+  color: var(--ledger-text);
+  border-color: var(--ledger-text);
 }
 
 .site-header.is-scrolled .header-cv:hover {
@@ -529,7 +530,7 @@ a {
   padding: 14px 16px;
   border-top: 1px solid var(--line);
   font-family: var(--font-mono);
-  color: var(--ledger);
+  color: var(--ledger-text);
   font-size: 0.82rem;
 }
 
@@ -593,7 +594,7 @@ a {
 /* ---------------------------------------------------------------------- */
 
 .timeline-section {
-  background: #fff;
+  background: var(--surface);
 }
 
 .timeline {
@@ -628,8 +629,8 @@ a {
   min-height: 34px;
   padding: 0 11px;
   border: 1px solid rgba(23, 69, 58, 0.28);
-  background: #fff;
-  color: var(--ledger);
+  background: var(--surface);
+  color: var(--ledger-text);
   font-size: 0.8rem;
 }
 
@@ -643,7 +644,7 @@ a {
 
 .timeline-date {
   font-family: var(--font-mono);
-  color: var(--ledger);
+  color: var(--ledger-text);
   font-size: 0.86rem;
 }
 
@@ -687,7 +688,7 @@ a {
 .target-panel {
   padding: 24px;
   border: 1px solid var(--line);
-  background: #fff;
+  background: var(--surface);
   box-shadow: 0 18px 42px rgba(10, 14, 18, 0.08);
 }
 
@@ -710,7 +711,7 @@ a {
   min-height: 32px;
   padding: 0 10px;
   border: 1px solid rgba(23, 69, 58, 0.22);
-  color: var(--ledger);
+  color: var(--ledger-text);
   font-size: 0.76rem;
 }
 
@@ -751,7 +752,7 @@ a {
   min-height: 36px;
   padding: 0 12px;
   border: 1px solid var(--line);
-  background: #fff;
+  background: var(--surface);
   color: var(--ink);
   font-size: 0.82rem;
 }
@@ -778,6 +779,7 @@ a {
 .project-card {
   min-height: 420px;
   padding: 28px;
+  overflow: hidden;
   border: 1px solid var(--line-on-dark);
   background: rgba(236, 238, 240, 0.04);
   display: flex;
@@ -797,12 +799,34 @@ a {
   font-size: 0.78rem;
 }
 
+/* Vignette pleine largeur : compense le padding de la carte */
+.project-thumb {
+  margin: -28px -28px 22px;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--ink-2);
+  border-bottom: 1px solid var(--line-on-dark);
+}
+.project-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
 .project-card h3 {
   margin: 12px 0 12px;
   font-size: 1.3rem;
   line-height: 1.2;
 }
 
+.project-period {
+  margin: 0 0 12px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  color: var(--muted-on-dark);
+}
 .project-card p {
   margin: 0;
   color: rgba(236, 238, 240, 0.76);
@@ -1023,7 +1047,7 @@ a {
   min-height: 36px;
   padding: 0 12px;
   border: 1px solid var(--line);
-  background: #fff;
+  background: var(--surface);
   color: var(--ink);
   font-size: 0.8rem;
 }
@@ -1083,13 +1107,13 @@ a {
 
 .contact-actions a {
   border-color: var(--line);
-  background: #fff;
+  background: var(--surface);
   color: var(--ink);
 }
 
 .contact-actions a:hover {
-  border-color: var(--ledger);
-  color: var(--ledger);
+  border-color: var(--ledger-text);
+  color: var(--ledger-text);
 }
 
 .cv-links {
@@ -1109,8 +1133,8 @@ a {
 }
 
 .cv-links a:hover {
-  border-color: var(--ledger);
-  color: var(--ledger);
+  border-color: var(--ledger-text);
+  color: var(--ledger-text);
 }
 
 /* ---------------------------------------------------------------------- */
@@ -1134,7 +1158,7 @@ a {
 }
 
 .site-footer a:hover {
-  color: var(--ledger);
+  color: var(--ledger-text);
 }
 
 /* ---------------------------------------------------------------------- */
@@ -1248,5 +1272,46 @@ a {
   .secondary-link,
   .contact-actions a {
     width: 100%;
+  }
+}
+
+/* ==========================================================================
+   Page 404
+   ========================================================================== */
+.error-section {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 120px 24px;
+  background: var(--ink-2);
+  color: #fff;
+  text-align: left;
+}
+.error-section h1 {
+  margin: 12px 0 18px;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  line-height: 1.1;
+}
+.error-section .error-text {
+  max-width: 52ch;
+  margin: 0 0 32px;
+  color: var(--muted-on-dark);
+}
+
+/* ==========================================================================
+   Theme sombre : seuls les tokens changent. Les sections deja sombres
+   (--ink-2, --ledger) sont volontairement identiques dans les deux modes.
+   ========================================================================== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #10171a;
+    --surface: #181f22;
+    --ink: #eceef0;
+    --muted: #9ba5aa;
+    --ledger-text: #6cc4a8;
+    --line: rgba(236, 238, 240, 0.14);
+    --shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
   }
 }

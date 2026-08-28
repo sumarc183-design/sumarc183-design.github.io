@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Page introuvable — Marc Su</title>
+    <meta name="description" content="Cette page n'existe pas sur le portfolio de Marc Su. Revenir à l'accueil ou consulter les projets." />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#eceef0" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#10171a" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon.png" />
+    <link rel="apple-touch-icon" href="/assets/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Aller au contenu</a>
+    <header class="site-header">
+      <a class="brand" href="/#accueil" aria-label="Retour à l'accueil">
+        <span class="brand-mark">MS</span>
+        <span>Marc Su</span>
+      </a>
+      <div class="header-right">
+        <nav class="site-nav" aria-label="Navigation principale">
+          <a href="/#profil">Profil</a>
+          <a href="/#parcours">Parcours</a>
+          <a href="/#aujourdhui">Aujourd'hui</a>
+          <a href="/#projets">Projets</a>
+          <a href="/#competences">Compétences</a>
+          <a href="/#contact">Contact</a>
+        </nav>
+        <a class="header-cv" href="/assets/CV_data_Marc_Su.pdf" target="_blank" rel="noopener noreferrer">CV ↓</a>
+        <button class="menu-button" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="error-section" aria-labelledby="error-title">
+        <p class="eyebrow">Erreur 404</p>
+        <h1 id="error-title">Cette page n'existe pas.</h1>
+        <p class="error-text">
+          Le lien est peut-être obsolète, ou la page a été déplacée. Les projets et
+          leurs rapports restent accessibles depuis l'accueil.
+        </p>
+        <div class="hero-actions">
+          <a class="primary-link" href="/#projets">Voir les projets</a>
+          <a class="secondary-link" href="/">Retour à l'accueil</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>&copy; <span id="year"></span> Marc Su. Portfolio personnel. Tous droits réservés.</p>
+      <a href="/#accueil">Retour en haut</a>
+    </footer>
+
+    <script src="/script.js"></script>
+  </body>
+</html>
